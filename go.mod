@@ -1,4 +1,4 @@
-module github.com/glcharge/otelzap
+module github.com/GLCharge/otelzap
 
 go 1.18
 
