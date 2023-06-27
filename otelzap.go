@@ -215,7 +215,7 @@ func runtimeCaller(skip int) (fn, file string, line int, ok bool) {
 	return frame.Function, frame.File, frame.Line, frame.PC != 0
 }
 
-//------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------
 
 // LoggerWithCtx is a wrapper for Logger that also carries a context.Context.
 type LoggerWithCtx struct {
@@ -326,7 +326,7 @@ func (l LoggerWithCtx) Fatal(msg string, fields ...zapcore.Field) {
 	l.l.skipCaller.Fatal(msg, fields...)
 }
 
-//------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------
 
 // A SugaredLogger wraps the base Logger functionality in a slower, but less
 // verbose, API. Any Logger can be converted to a SugaredLogger with its Sugar
@@ -545,13 +545,15 @@ func (s *SugaredLogger) logKVs(
 
 	if s.l.withTraceID {
 		traceID := span.SpanContext().TraceID().String()
+		spanId := span.SpanContext().SpanID().String()
 		kvs = append(kvs, "trace_id", traceID)
+		kvs = append(kvs, "span_id", spanId)
 	}
 
 	return kvs
 }
 
-//------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------
 
 type SugaredLoggerWithCtx struct {
 	ctx context.Context
@@ -666,7 +668,7 @@ func (s SugaredLoggerWithCtx) Fatalw(msg string, keysAndValues ...interface{}) {
 	s.s.skipCaller.Fatalw(msg, keysAndValues...)
 }
 
-//------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------
 
 func appendField(attrs []attribute.KeyValue, f zapcore.Field) []attribute.KeyValue {
 	switch f.Type {
