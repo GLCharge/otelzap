@@ -224,8 +224,10 @@ type LoggerWithCtx struct {
 }
 
 func (l LoggerWithCtx) With(fields ...zapcore.Field) LoggerWithCtx {
-	l.l.Logger = l.l.With(fields...)
-	return l
+	if len(fields) == 0 {
+		return l
+	}
+	return l.Clone(WithExtraFields(fields...))
 }
 
 // Context returns logger's context.
