@@ -168,7 +168,9 @@ func (l *Logger) logFields(
 
 	if l.withTraceID {
 		traceID := span.SpanContext().TraceID().String()
+		spanID := span.SpanContext().SpanID().String()
 		fields = append(fields, zap.String("trace_id", traceID))
+		fields = append(fields, zap.String("span_id", spanID))
 	}
 
 	return fields
